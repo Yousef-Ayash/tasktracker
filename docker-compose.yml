@@ -1,0 +1,26 @@
+services:
+  tasktracker:
+    build: .
+    container_name: tasktracker
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Paths inside the container — override whatever's in .env, since the
+      # host-side DB_PATH/SESSION_KEY_PATH values don't apply once mounted here.
+      DB_PATH: /app/data/tasktracker.db
+      SESSION_KEY_PATH: /app/data/session-key
+    volumes:
+      - ./data:/app/data
+    ports:
+      - "3000:3000"
+
+  # Uncomment if this host doesn't already have ntfy running elsewhere.
+  # ntfy:
+  #   image: binwiederhier/ntfy
+  #   container_name: ntfy
+  #   restart: unless-stopped
+  #   command: serve
+  #   volumes:
+  #     - ./ntfy-data:/var/cache/ntfy
+  #   ports:
+  #     - "8080:80"

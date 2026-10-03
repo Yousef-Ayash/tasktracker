@@ -1,0 +1,18 @@
+<nav class="nav">
+  <div class="nav-brand">
+    <img src="/icons/icon-192.png" alt="" class="brand-mark">
+    Task Tracker
+  </div>
+  <div class="nav-links">
+    <a href="/tasks">Tasks</a>
+    <% if (user.role === 'admin') { %><a href="/users">Users</a><% } %>
+  </div>
+  <div class="nav-user">
+    <div class="notif-bell" hx-get="/notifications/panel" hx-trigger="load, every 30s" hx-swap="innerHTML"></div>
+    <span><%= user.username %></span>
+    <span class="role-tag"><%= user.role %></span>
+    <form method="POST" action="/logout" style="display:inline">
+      <button type="submit" class="link-btn">Log out</button>
+    </form>
+  </div>
+</nav>

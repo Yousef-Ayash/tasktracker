@@ -1,0 +1,43 @@
+<%- include('partials/header', { user }) %>
+<h1>Users</h1>
+
+<details class="new-task">
+  <summary>New user</summary>
+  <form method="POST" action="/users">
+    <label>Username
+      <input type="text" name="username" required>
+    </label>
+    <label>Password
+      <input type="password" name="password" required minlength="8">
+    </label>
+    <label>Role
+      <select name="role">
+        <option value="user">User</option>
+        <option value="manager">Manager</option>
+        <option value="admin">Admin</option>
+      </select>
+    </label>
+    <label>Reports to
+      <select name="manager_id">
+        <option value="">— none —</option>
+        <% managers.forEach(m => { %><option value="<%= m.id %>"><%= m.username %></option><% }) %>
+      </select>
+    </label>
+    <button type="submit">Create user</button>
+  </form>
+</details>
+
+<table>
+  <thead><tr><th>Username</th><th>Role</th><th>Reports to</th></tr></thead>
+  <tbody>
+  <% users.forEach(u => { %>
+    <tr>
+      <td><%= u.username %></td>
+      <td><span class="role-tag"><%= u.role %></span></td>
+      <td><%= u.manager_name || '—' %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+
+<%- include('partials/footer') %>

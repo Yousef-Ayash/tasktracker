@@ -1,0 +1,27 @@
+{
+  "name": "tasktracker",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Self-hosted hierarchical task tracker (Fastify + SQLite + HTMX).",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@fastify/formbody": "^7.4.0",
+    "@fastify/secure-session": "^7.5.1",
+    "@fastify/static": "^7.0.4",
+    "@fastify/view": "^9.1.0",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^13.0.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "fastify": "^4.28.1",
+    "sodium-native": "^4.1.1"
+  }
+}

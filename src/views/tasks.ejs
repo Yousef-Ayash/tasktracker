@@ -1,0 +1,40 @@
+<%- include('partials/header', { user }) %>
+<h1>Tasks</h1>
+
+<details class="new-task">
+  <summary>New task</summary>
+  <form hx-post="/tasks" hx-target="#task-list" hx-swap="afterbegin"
+        hx-on::after-request="if(event.detail.successful) this.reset()">
+    <label>Name
+      <input type="text" name="name" required>
+    </label>
+    <label>Description
+      <textarea name="description" rows="2"></textarea>
+    </label>
+    <label>Due
+      <input type="datetime-local" name="expected_done_at">
+    </label>
+    <label>Assign to
+      <select name="assignees" multiple size="<%= Math.min(assignableUsers.length, 4) %>">
+        <% assignableUsers.forEach(u => { %>
+          <option value="<%= u.id %>" <%= u.id === user.id ? 'selected' : '' %>><%= u.username %></option>
+        <% }) %>
+      </select>
+    </label>
+    <button type="submit">Create task</button>
+  </form>
+</details>
+
+<div id="detail-panel"></div>
+
+<% if (tasks.length === 0) { %>
+  <p class="empty-state">No tasks yet. Create one above to get started.</p>
+<% } %>
+
+<ul id="task-list" class="task-list">
+  <% tasks.forEach(task => { %>
+    <%- include('partials/task-row', { task, user }) %>
+  <% }) %>
+</ul>
+
+<%- include('partials/footer') %>

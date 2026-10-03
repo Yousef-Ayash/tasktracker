@@ -1,0 +1,16 @@
+<li id="task-<%= task.id %>" class="task-row status-<%= task.status %>">
+  <div class="task-main" hx-get="/tasks/<%= task.id %>" hx-target="#detail-panel" hx-swap="innerHTML">
+    <span class="task-name"><%= task.name %></span>
+    <span class="task-assignees"><%= task.assignees.map(a => a.username).join(', ') %></span>
+    <% if (task.expected_done_at) { %>
+      <span class="task-due">due <%= task.expected_done_at.replace('T', ' ').slice(0, 16) %></span>
+    <% } %>
+  </div>
+  <button
+    class="status-btn"
+    hx-post="/tasks/<%= task.id %>/status"
+    hx-target="#task-<%= task.id %>"
+    hx-swap="outerHTML">
+    <%= task.status.replace('_', ' ') %>
+  </button>
+</li>

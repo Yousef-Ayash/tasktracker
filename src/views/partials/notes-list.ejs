@@ -1,0 +1,10 @@
+<ul class="notes-list">
+  <% if (notes.length === 0) { %>
+    <li class="empty-state">No notes yet.</li>
+  <% } %>
+  <% notes.forEach(n => { %>
+    <li><strong><%= n.username %>:</strong> <%= n.text %>
+      <span class="note-time"><%= n.created_at %></span>
+    </li>
+  <% }) %>
+</ul>

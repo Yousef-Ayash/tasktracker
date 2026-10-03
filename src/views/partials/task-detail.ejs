@@ -1,0 +1,53 @@
+<div class="task-detail">
+  <div class="task-detail-head">
+    <h2><%= task.name %></h2>
+    <button class="close-btn" onclick="document.getElementById('detail-panel').innerHTML=''" aria-label="Close">×</button>
+  </div>
+  <% if (task.description) { %><p><%= task.description %></p><% } %>
+  <div class="meta-row">
+    <span class="meta-item"><span class="meta-label">Status</span><strong><%= task.status.replace('_', ' ') %></strong></span>
+    <span class="meta-item"><span class="meta-label">Assigned to</span><strong><%= task.assignees.map(a => a.username).join(', ') || '—' %></strong></span>
+  </div>
+
+  <% if (canEditLogistics) { %>
+    <form hx-post="/tasks/<%= task.id %>/due-date" hx-target="#detail-panel" hx-swap="innerHTML">
+      <label>Due date
+        <input type="datetime-local" name="expected_done_at"
+               value="<%= task.expected_done_at ? task.expected_done_at.slice(0,16) : '' %>">
+      </label>
+      <button type="submit">Update due date</button>
+    </form>
+
+    <form hx-post="/tasks/<%= task.id %>/assignees" hx-target="#detail-panel" hx-swap="innerHTML">
+      <label>Reassign
+        <select name="assignees" multiple size="<%= Math.min(assignableUsers.length, 4) %>">
+          <% assignableUsers.forEach(u => { %>
+            <option value="<%= u.id %>" <%= task.assignees.some(a => a.id === u.id) ? 'selected' : '' %>>
+              <%= u.username %>
+            </option>
+          <% }) %>
+        </select>
+      </label>
+      <button type="submit">Save assignees</button>
+    </form>
+
+    <button
+      class="danger-btn"
+      hx-post="/tasks/<%= task.id %>/delete"
+      hx-target="#task-<%= task.id %>"
+      hx-swap="outerHTML"
+      hx-confirm="Delete this task? This can't be undone from the UI.">
+      Delete task
+    </button>
+  <% } %>
+
+  <h3>Notes</h3>
+  <div id="notes-list">
+    <%- include('notes-list', { notes }) %>
+  </div>
+  <form hx-post="/tasks/<%= task.id %>/notes" hx-target="#notes-list" hx-swap="innerHTML"
+        hx-on::after-request="if(event.detail.successful) this.reset()">
+    <textarea name="text" rows="2" required placeholder="Add a note"></textarea>
+    <button type="submit">Add note</button>
+  </form>
+</div>

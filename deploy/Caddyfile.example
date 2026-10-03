@@ -1,0 +1,8 @@
+# Goes on the separate reverse-proxy host (not this container), alongside
+# the entries for your other self-hosted services.
+#
+# Replace 10.10.2.204 with this container's actual LAN IP.
+
+task.yourdomain.com {
+    reverse_proxy 10.10.2.204:3000
+}

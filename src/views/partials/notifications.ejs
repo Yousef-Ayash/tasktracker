@@ -1,0 +1,10 @@
+🔔<% if (notifs.length) { %> <span class="notif-count"><%= notifs.length %></span><% } %>
+<% if (notifs.length) { %>
+<div class="notif-dropdown">
+  <% notifs.forEach(n => { %>
+    <div class="notif-item" hx-post="/notifications/<%= n.id %>/read" hx-target="closest .notif-bell" hx-swap="innerHTML">
+      <%= n.message %>
+    </div>
+  <% }) %>
+</div>
+<% } %>

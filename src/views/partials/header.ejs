@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Tracker</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="theme-color" content="#2F6F62">
+  <script src="/js/htmx.min.js"></script>
+  <script src="/js/register-sw.js"></script>
+</head>
+
+<body>
+  <% if (typeof user !=='undefined' && user) { %>
+    <%- include('nav', { user }) %>
+      <% } %>
+        <main class="container">
